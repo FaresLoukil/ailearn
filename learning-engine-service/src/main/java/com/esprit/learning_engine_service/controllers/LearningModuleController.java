@@ -17,13 +17,11 @@ public class LearningModuleController {
         this.service = service;
     }
 
-    // Get all modules
     @GetMapping
     public ResponseEntity<List<LearningModuleDTO>> getAllModules() {
         return ResponseEntity.ok(service.getAll());
     }
 
-    // Get module by ID
     @GetMapping("/{id}")
     public ResponseEntity<LearningModuleDTO> getModuleById(@PathVariable String id) {
         LearningModuleDTO module = service.getById(id);
@@ -34,7 +32,6 @@ public class LearningModuleController {
         }
     }
 
-    // Create new module
     @PostMapping
     public ResponseEntity<LearningModuleDTO> createModule(@RequestBody LearningModuleDTO module) {
         return ResponseEntity.ok(service.save(module));
