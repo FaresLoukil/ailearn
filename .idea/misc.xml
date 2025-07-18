@@ -8,6 +8,7 @@
         <option value="$PROJECT_DIR$/user-profile-service/pom.xml" />
         <option value="$PROJECT_DIR$/api-gateway/pom.xml" />
         <option value="$PROJECT_DIR$/learning-engine-service/pom.xml" />
+        <option value="$PROJECT_DIR$/common-lib/pom.xml" />
       </list>
     </option>
   </component>
