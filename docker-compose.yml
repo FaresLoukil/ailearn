@@ -1,0 +1,96 @@
+version: '3.8'
+
+services:
+
+  eureka:
+    build: ./eureka
+    container_name: eureka
+    ports:
+      - "8761:8761"
+    networks:
+      - ailearn-net
+
+  config-server:
+    build: ./config-server
+    container_name: config-server
+    ports:
+      - "8888:8888"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    networks:
+      - ailearn-net
+    depends_on:
+      - eureka
+
+  apigateway:
+    build: ./api-gateway
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    networks:
+      - ailearn-net
+    depends_on:
+      - config-server
+      - eureka
+
+  user-profile-service:
+    build: ./user-profile-service
+    container_name: user-profile-service
+    ports:
+      - "8081:8081"
+    networks:
+      - ailearn-net
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    depends_on:
+      - mysql
+
+  learning-engine-service:
+    build: ./learning-engine-service
+    container_name: learning-engine-service
+    ports:
+      - "8082:8082"
+    networks:
+      - ailearn-net
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    depends_on:
+      - mongodb
+
+  mysql:
+    image: mysql:8
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: userdb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    networks:
+      - ailearn-net
+
+  mongodb:
+    image: mongo:6
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    networks:
+      - ailearn-net
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0.1
+    container_name: keycloak
+    command: start-dev
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - "9090:8080"
+    networks:
+      - ailearn-net
+
+networks:
+  ailearn-net:
+    driver: bridge
