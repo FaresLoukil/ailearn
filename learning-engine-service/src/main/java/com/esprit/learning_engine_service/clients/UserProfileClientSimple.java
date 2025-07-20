@@ -14,7 +14,7 @@ public class UserProfileClientSimple {
     }
 
     public UserProfileDTO getUserProfile(Long id) {
-        String url = "http://localhost:8081/api/userprofiles/" + id;
+        String url = "http://localhost:8081/user-profile-service/api/users/" + id;
         return restTemplate.getForObject(url, UserProfileDTO.class);
     }
 }

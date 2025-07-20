@@ -16,7 +16,7 @@ public class UserProfileClientWithCircuitBreaker {
 
     @CircuitBreaker(name = "userProfileService", fallbackMethod = "fallbackUserProfile")
     public UserProfileDTO getUserProfile(Long id) {
-        String url = "http://user-profile-service/api/userprofiles/" + id;
+        String url = "http://user-profile-service/user-profile-service/api/users/" + id;
         return restTemplate.getForObject(url, UserProfileDTO.class);
     }
 
